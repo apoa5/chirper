@@ -31,10 +31,23 @@ class ChirpController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'message' => 'required|string|max:255',
+    ], [
+        'message.required' => 'Please write something to chirp!',
+        'message.max' => 'Chirps must be 255 characters or less.',
+    ]);
+
+    Chirp::create([
+        'message' => $validated['message'],
+        'user_id' => null,
+    ]);
+
+    return redirect('/')->with('success', 'Your chirp has been posted!');
+}
 
     /**
      * Display the specified resource.
@@ -47,24 +60,35 @@ class ChirpController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Chirp $chirp)
     {
-        //
+        return view('chirps.edit', compact('chirp'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Chirp $chirp)
     {
-        //
+        $validated = $request->validate([
+        'message' => 'required|string|max:255',
+    ], [
+        'message.required' => 'Please write something to chirp!',
+        'message.max' => 'Chirps must be 255 characters or less.',
+    ]);
+
+    $chirp->update($validated);
+
+    return redirect('/')->with('success', 'Your chirp has been updated!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Chirp $chirp)
     {
-        //
+        $chirp->delete();
+
+        return redirect('/')->with('success', 'Your chirp has been deleted!');
     }
 }
