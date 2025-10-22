@@ -7,7 +7,7 @@
             @if ($chirp->user)
                 <div class="avatar">
                     <div class="size-10 rounded-full">
-                        <img src="https://avatars.laravel.cloud/{{ urlencode($chirp->user->email) }}"
+                        <img src="https://avatars.laravel.cloud/{{ urlencode($chirp->user->email) }}?vibe=ocean"
                             alt="{{ $chirp->user->name }}'s avatar" class="rounded-full" />
                     </div>
                 </div>
